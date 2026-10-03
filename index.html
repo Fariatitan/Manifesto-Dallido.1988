@@ -10,7 +10,656 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        /* ==========================================================================
+           ARTE HÍBRIDA — PRESENTATION DESIGN SYSTEM (STANDALONE & EMBEDDED)
+           ========================================================================== */
+        :root {
+            --bg-dark: #121214;
+            --bg-stage: #18181B;
+            --bg-panel: #222226;
+            --text-primary: #F4F4F5;
+            --text-secondary: #A1A1AA;
+            --text-muted: #71717A;
+            --accent: #FFFFFF;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-active: rgba(255, 255, 255, 0.22);
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-display: 'Space Grotesk', 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-standard: 0.45s;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .presentation-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100%;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 45%, #1F1F24 0%, #111113 100%);
+        }
+
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.06);
+            z-index: 100;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 14.28%;
+            background: linear-gradient(90deg, #A1A1AA, #FFFFFF);
+            transition: width var(--duration-standard) var(--transition-smooth);
+        }
+
+        .presentation-stage {
+            position: relative;
+            width: min(100vw, calc((100dvh - 60px) * (16 / 9)));
+            height: min(calc(100dvh - 60px), calc(100vw * (9 / 16)));
+            max-width: 1720px;
+            background-color: var(--bg-stage);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.99);
+            transition: opacity 0.5s var(--transition-smooth), transform 0.5s var(--transition-smooth), visibility 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        .slide-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* SLIDE 1: COVER */
+        .cover-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 3rem 1.5rem;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, #25252B 0%, #151517 90%);
+        }
+
+        .cover-badge {
+            font-family: var(--font-mono);
+            font-size: clamp(0.7rem, 0.85vw, 0.85rem);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            padding: 0.35rem 0.85rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            border-radius: 9999px;
+        }
+
+        .cover-header {
+            margin-bottom: auto;
+            margin-top: auto;
+        }
+
+        .main-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 5.5vw, 5.2rem);
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            line-height: 1.08;
+        }
+
+        .artist-title {
+            font-family: var(--font-primary);
+            font-size: clamp(1.1rem, 2vw, 2rem);
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .cover-footer {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .author-name {
+            font-size: clamp(0.95rem, 1.25vw, 1.3rem);
+            font-weight: 400;
+            color: #EDEDED;
+            letter-spacing: 0.04em;
+        }
+
+        .author-role {
+            font-size: clamp(0.8rem, 1vw, 1.05rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        .author-details {
+            font-size: clamp(0.7rem, 0.85vw, 0.9rem);
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+        }
+
+        /* SPLIT SCREEN SLIDES */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            height: 100%;
+        }
+
+        .media-column {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #111113;
+            padding: 1.5rem;
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-in;
+        }
+
+        .artwork-img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            border-radius: 1px;
+            box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--border-subtle);
+            transition: transform 0.5s var(--transition-smooth), box-shadow 0.5s ease;
+        }
+
+        .image-wrapper:hover .artwork-img {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 24px 55px -10px rgba(0, 0, 0, 0.9);
+        }
+
+        .zoom-badge {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(18, 18, 20, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-subtle);
+            color: #E4E4E7;
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+        }
+
+        .image-wrapper:hover .zoom-badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-column {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 3.5rem 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: var(--bg-stage);
+            overflow-y: auto;
+        }
+
+        .question-box, .statement-box {
+            margin-top: auto;
+            margin-bottom: auto;
+            max-width: 540px;
+        }
+
+        .curatorial-question {
+            font-family: var(--font-primary);
+            font-size: clamp(1.4rem, 2.6vw, 2.8rem);
+            font-weight: 600;
+            line-height: 1.28;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .statement-box {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .curatorial-statement {
+            font-size: clamp(1rem, 1.5vw, 1.55rem);
+            line-height: 1.5;
+            color: var(--text-primary);
+            font-weight: 300;
+        }
+
+        .curatorial-statement.lead-paragraph {
+            font-weight: 400;
+            color: #FFFFFF;
+        }
+
+        .curatorial-statement.secondary-paragraph {
+            color: #A1A1AA;
+            font-weight: 300;
+        }
+
+        .curatorial-statement.highlight-quote {
+            font-size: clamp(1.2rem, 1.9vw, 1.95rem);
+            line-height: 1.4;
+        }
+
+        .curatorial-caption {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            font-size: clamp(0.72rem, 0.8vw, 0.85rem);
+            color: var(--text-secondary);
+            line-height: 1.45;
+            border-top: 1px solid var(--border-subtle);
+            padding-top: 1rem;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .caption-title {
+            font-weight: 600;
+            font-size: clamp(0.85rem, 1vw, 1rem);
+            color: var(--text-primary);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .caption-artist {
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 0.08em;
+            font-size: clamp(0.75rem, 0.85vw, 0.9rem);
+        }
+
+        .caption-process {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: clamp(0.68rem, 0.75vw, 0.8rem);
+            margin-top: 0.25rem;
+        }
+
+        .caption-process .arrow {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        /* SLIDE 5: DUAL COLUMN */
+        .side-by-side-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem 3rem;
+            gap: 2.5rem;
+            background-color: var(--bg-stage);
+            align-items: center;
+        }
+
+        .dual-column {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .dual-artwork, .dual-mockup {
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            border-radius: 2px;
+            overflow: hidden;
+            background-color: #111113;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem;
+        }
+
+        .dual-artwork .artwork-img, .dual-mockup .artwork-img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .dual-column .curatorial-caption {
+            margin-top: 0.75rem;
+            padding-top: 0.6rem;
+        }
+
+        /* CONTROLS FOOTER */
+        .presentation-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 54px;
+            background: rgba(18, 18, 20, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 100;
+        }
+
+        .deck-title {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .controls-center {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .slide-counter {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            color: var(--text-secondary);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .slide-counter #currentSlide {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-btn, .icon-btn {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover:not(:disabled), .icon-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--border-active);
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.04);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+        }
+
+        /* LIGHTBOX MODAL */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(10, 10, 12, 0.96);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+            padding: 1.5rem;
+        }
+
+        .lightbox-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 90dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: zoom-out;
+        }
+
+        .lightbox-content img {
+            max-width: 92vw;
+            max-height: 76dvh;
+            object-fit: contain;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 2px;
+        }
+
+        .lightbox-caption {
+            width: 100%;
+            text-align: center;
+            font-family: var(--font-primary);
+            color: #FFFFFF;
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 0.6rem 1rem;
+            margin-top: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .lightbox-close-btn {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            color: #FFFFFF;
+            padding: 0.45rem 0.9rem;
+            border-radius: 9999px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            z-index: 210;
+            transition: all 0.2s ease;
+        }
+
+        .lightbox-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* RESPONSIVE MOBILE */
+        @media (max-width: 900px) {
+            .presentation-stage {
+                width: 100vw;
+                height: calc(100dvh - 54px);
+                max-width: 100%;
+                max-height: 100%;
+                border-radius: 0;
+                border: none;
+                box-shadow: none;
+                padding-top: 3px;
+            }
+
+            .slide {
+                padding: 1.5rem 1rem 2rem 1rem;
+                display: block;
+            }
+
+            .split-layout {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                min-height: 100%;
+                gap: 1.5rem;
+            }
+
+            .left-image .media-column, .right-image .media-column { order: 1; }
+            .left-image .text-column, .right-image .text-column { order: 2; }
+
+            .media-column {
+                height: 42vh;
+                min-height: 240px;
+                padding: 0.5rem;
+                background: transparent;
+            }
+
+            .artwork-img {
+                max-height: 100%;
+            }
+
+            .text-column {
+                padding: 0.5rem 0.5rem 2rem 0.5rem;
+                height: auto;
+                overflow-y: visible;
+                background: transparent;
+            }
+
+            .question-box, .statement-box {
+                margin: 0;
+            }
+
+            .curatorial-question {
+                font-size: 1.4rem;
+                line-height: 1.3;
+            }
+
+            .curatorial-statement {
+                font-size: 1.05rem;
+            }
+
+            .curatorial-caption {
+                margin-top: 1.25rem;
+                padding-top: 0.75rem;
+            }
+
+            .side-by-side-layout {
+                display: flex;
+                flex-direction: column;
+                padding: 0.5rem 0.5rem 2rem 0.5rem;
+                gap: 2rem;
+                height: auto;
+            }
+
+            .dual-column {
+                height: auto;
+            }
+
+            .dual-artwork, .dual-mockup {
+                height: 38vh;
+                min-height: 220px;
+            }
+
+            .deck-title {
+                display: none;
+            }
+
+            .presentation-controls {
+                padding: 0 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="presentation-wrapper">
@@ -20,7 +669,7 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
 
-        <!-- Presentation Stage (16:9 Desktop / Fluid Mobile) -->
+        <!-- Presentation Stage -->
         <main class="presentation-stage" id="stage">
 
             <!-- SLIDE 1: CAPA -->
@@ -44,7 +693,7 @@
                 <div class="slide-content split-layout left-image">
                     <div class="media-column">
                         <div class="image-wrapper" onclick="openLightbox('ASSETS/retrato_001_full.png', 'RETRATOS 001', 'HENRIQUE F &bull; Pintura a óleo &bull; Processos Híbridos / IA')">
-                            <img src="ASSETS/retrato_001_full.png" alt="RETRATOS 001 - Henrique F" class="artwork-img" loading="eager">
+                            <img src="ASSETS/retrato_001_full.png" onerror="this.onerror=null; this.src='assets/retrato_001_full.png';" alt="RETRATOS 001 - Henrique F" class="artwork-img" loading="eager">
                             <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
@@ -94,7 +743,7 @@
                     </div>
                     <div class="media-column">
                         <div class="image-wrapper" onclick="openLightbox('ASSETS/retrato_002_full.png', 'RETRATOS 002', 'HENRIQUE F &bull; Pintura digital &bull; Processos Híbridos / IA')">
-                            <img src="ASSETS/retrato_002_full.png" alt="RETRATOS 002 - Henrique F" class="artwork-img" loading="lazy">
+                            <img src="ASSETS/retrato_002_full.png" onerror="this.onerror=null; this.src='assets/retrato_002_full.png';" alt="RETRATOS 002 - Henrique F" class="artwork-img" loading="lazy">
                             <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
@@ -106,7 +755,7 @@
                 <div class="slide-content split-layout left-image">
                     <div class="media-column">
                         <div class="image-wrapper" onclick="openLightbox('ASSETS/salto_001_full.png', 'Salto - 001', 'HENRIQUE F &bull; Pintura digital &bull; Processos Híbridos / IA')">
-                            <img src="ASSETS/salto_001_full.png" alt="Salto - 001 - Henrique F" class="artwork-img" loading="lazy">
+                            <img src="ASSETS/salto_001_full.png" onerror="this.onerror=null; this.src='assets/salto_001_full.png';" alt="Salto - 001 - Henrique F" class="artwork-img" loading="lazy">
                             <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
@@ -134,7 +783,7 @@
                 <div class="slide-content side-by-side-layout">
                     <div class="dual-column left-item">
                         <div class="image-wrapper dual-artwork" onclick="openLightbox('ASSETS/boys_003_full.png', 'BOYS - 003', 'HENRIQUE F &bull; Pintura digital &bull; Processos Híbridos / IA')">
-                            <img src="ASSETS/boys_003_full.png" alt="BOYS - 003 - Henrique F" class="artwork-img" loading="lazy">
+                            <img src="ASSETS/boys_003_full.png" onerror="this.onerror=null; this.src='assets/boys_003_full.png';" alt="BOYS - 003 - Henrique F" class="artwork-img" loading="lazy">
                             <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                         <div class="curatorial-caption bottom-left">
@@ -151,7 +800,7 @@
                     </div>
                     <div class="dual-column right-item">
                         <div class="image-wrapper dual-mockup" onclick="openLightbox('ASSETS/boys_mockup_full.png', 'Visualização Expográfica', 'BOYS - 003 &bull; Projeto de Galeria')">
-                            <img src="ASSETS/boys_mockup_full.png" alt="Visualização Expográfica BOYS - 003" class="artwork-img" loading="lazy">
+                            <img src="ASSETS/boys_mockup_full.png" onerror="this.onerror=null; this.src='assets/boys_mockup_full.png';" alt="Visualização Expográfica BOYS - 003" class="artwork-img" loading="lazy">
                             <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                         <div class="curatorial-caption bottom-right">
@@ -167,7 +816,7 @@
                 <div class="slide-content split-layout left-image">
                     <div class="media-column">
                         <div class="image-wrapper" onclick="openLightbox('ASSETS/sem_titulo_full.png', 'Sem título', 'HENRIQUE F &bull; Pintura digital &bull; Processos Híbridos / IA')">
-                            <img src="ASSETS/sem_titulo_full.png" alt="Sem título - Henrique F" class="artwork-img" loading="lazy">
+                            <img src="ASSETS/sem_titulo_full.png" onerror="this.onerror=null; this.src='assets/sem_titulo_full.png';" alt="Sem título - Henrique F" class="artwork-img" loading="lazy">
                             <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
@@ -217,7 +866,7 @@
                     </div>
                     <div class="media-column">
                         <div class="image-wrapper" onclick="openLightbox('ASSETS/from_heaven_000_full.png', 'From Heaven-000', 'HENRIQUE F &bull; Direção Criativa &bull; Processos Híbridos / IA')">
-                            <img src="ASSETS/from_heaven_000_full.png" alt="From Heaven-000 - Henrique F" class="artwork-img" loading="lazy">
+                            <img src="ASSETS/from_heaven_000_full.png" onerror="this.onerror=null; this.src='assets/from_heaven_000_full.png';" alt="From Heaven-000 - Henrique F" class="artwork-img" loading="lazy">
                             <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
@@ -270,6 +919,186 @@
 
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        /**
+         * ARTE HÍBRIDA — PRESENTATION CONTROLLER
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const totalSlides = slides.length;
+            let currentSlideIndex = 0;
+
+            const currentSlideEl = document.getElementById('currentSlide');
+            const totalSlidesEl = document.getElementById('totalSlides');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+            if (totalSlidesEl) {
+                totalSlidesEl.textContent = String(totalSlides).padStart(2, '0');
+            }
+
+            function goToSlide(index) {
+                if (index < 0) index = 0;
+                if (index >= totalSlides) index = totalSlides - 1;
+
+                slides.forEach((slide, idx) => {
+                    if (idx === index) {
+                        slide.classList.add('active');
+                        slide.scrollTop = 0;
+                    } else {
+                        slide.classList.remove('active');
+                    }
+                });
+
+                currentSlideIndex = index;
+                updateUI();
+            }
+
+            function updateUI() {
+                if (currentSlideEl) {
+                    currentSlideEl.textContent = String(currentSlideIndex + 1).padStart(2, '0');
+                }
+                if (progressBar) {
+                    const percentage = ((currentSlideIndex + 1) / totalSlides) * 100;
+                    progressBar.style.width = `${percentage}%`;
+                }
+                if (prevBtn) {
+                    prevBtn.disabled = currentSlideIndex === 0;
+                }
+                if (nextBtn) {
+                    nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+                }
+            }
+
+            function nextSlide() {
+                if (currentSlideIndex < totalSlides - 1) {
+                    goToSlide(currentSlideIndex + 1);
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlideIndex > 0) {
+                    goToSlide(currentSlideIndex - 1);
+                }
+            }
+
+            if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+            if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+            document.addEventListener('keydown', (e) => {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox && lightbox.classList.contains('active')) {
+                    if (e.key === 'Escape') closeLightbox();
+                    return;
+                }
+
+                if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+                switch (e.key) {
+                    case 'ArrowRight':
+                    case 'ArrowDown':
+                    case ' ':
+                    case 'PageDown':
+                        e.preventDefault();
+                        nextSlide();
+                        break;
+                    case 'ArrowLeft':
+                    case 'ArrowUp':
+                    case 'PageUp':
+                        e.preventDefault();
+                        prevSlide();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        goToSlide(0);
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        goToSlide(totalSlides - 1);
+                        break;
+                    case 'f':
+                    case 'F':
+                        toggleFullscreen();
+                        break;
+                }
+
+                if (e.key >= '1' && e.key <= '7') {
+                    const num = parseInt(e.key, 10) - 1;
+                    if (num < totalSlides) {
+                        goToSlide(num);
+                    }
+                }
+            });
+
+            // Touch Swipe
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', (e) => {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox && lightbox.classList.contains('active')) return;
+
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+
+                const diffX = touchEndX - touchStartX;
+                const diffY = touchEndY - touchStartY;
+
+                if (Math.abs(diffX) > Math.abs(diffY) * 1.5 && Math.abs(diffX) > 45) {
+                    if (diffX < 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                }
+            }, { passive: true });
+
+            function toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.warn(`Fullscreen error: ${err.message}`);
+                    });
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', toggleFullscreen);
+            }
+
+            window.openLightbox = function(src, title, subtitle) {
+                const lightbox = document.getElementById('lightbox');
+                const img = document.getElementById('lightboxImg');
+                const caption = document.getElementById('lightboxCaption');
+
+                if (lightbox && img && caption) {
+                    img.src = src;
+                    caption.innerHTML = `<strong>${title}</strong> &bull; ${subtitle}`;
+                    lightbox.classList.add('active');
+                }
+            };
+
+            window.closeLightbox = function() {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox) {
+                    lightbox.classList.remove('active');
+                }
+            };
+
+            updateUI();
+        });
+    </script>
 </body>
 </html>
