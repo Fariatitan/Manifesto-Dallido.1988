@@ -2,40 +2,50 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Arte Híbrida — Henrique F</title>
     <meta name="description" content="Pesquisa artística sobre a continuidade da pintura através de processos digitais e inteligência artificial. Henrique Taveira Ferreira.">
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="presentation-wrapper">
-        <!-- Presentation Stage (16:9 Aspect Ratio) -->
+        
+        <!-- Top Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Presentation Stage (16:9 Desktop / Fluid Mobile) -->
         <main class="presentation-stage" id="stage">
 
             <!-- SLIDE 1: CAPA -->
             <section class="slide active" id="slide-1" data-slide="1">
                 <div class="slide-content cover-content">
+                    <div class="cover-badge">PESQUISA CURATORIAL &bull; 2026</div>
                     <div class="cover-header">
                         <h1 class="main-title">ARTE HÍBRIDA</h1>
                         <h2 class="artist-title">HENRIQUE F</h2>
                     </div>
                     <div class="cover-footer">
                         <p class="author-name">Henrique Taveira Ferreira</p>
-                        <p class="author-role">Artista Visual</p>
-                        <p class="author-details">Arquitetura • Moda • Pesquisa Visual</p>
+                        <p class="author-role">Artista Visual &bull; Arquiteto &bull; Designer</p>
+                        <p class="author-details">Arquitetura &bull; Moda &bull; Pesquisa Visual Contemporânea</p>
                     </div>
+                </div>
             </section>
 
             <!-- SLIDE 2: RETRATOS 001 -->
             <section class="slide" id="slide-2" data-slide="2">
                 <div class="slide-content split-layout left-image">
                     <div class="media-column">
-                        <div class="image-wrapper frame-wrapper">
-                            <img src="assets/retrato_001_full.png" alt="RETRATOS 001 - Henrique F" class="artwork-img">
+                        <div class="image-wrapper" onclick="openLightbox('ASSETS/retrato_001_full.png', 'RETRATOS 001', 'HENRIQUE F &bull; Pintura a óleo &bull; Processos Híbridos / IA')">
+                            <img src="ASSETS/retrato_001_full.png" alt="RETRATOS 001 - Henrique F" class="artwork-img" loading="eager">
+                            <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
                     <div class="text-column">
@@ -47,9 +57,9 @@
                             <span class="caption-artist">HENRIQUE F</span>
                             <div class="caption-process">
                                 <span>Matriz: Pintura a óleo</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Intervenção: Processos Híbridos / IA</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Saída: Impressão Fine Art</span>
                             </div>
                         </div>
@@ -75,16 +85,17 @@
                             <span class="caption-artist">HENRIQUE F</span>
                             <div class="caption-process">
                                 <span>Matriz: Pintura digital</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Intervenção: Processos Híbridos / IA</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Saída: Impressão Fine Art</span>
                             </div>
                         </div>
                     </div>
                     <div class="media-column">
-                        <div class="image-wrapper full-bleed">
-                            <img src="assets/retrato_002_full.png" alt="RETRATOS 002 - Henrique F" class="artwork-img">
+                        <div class="image-wrapper" onclick="openLightbox('ASSETS/retrato_002_full.png', 'RETRATOS 002', 'HENRIQUE F &bull; Pintura digital &bull; Processos Híbridos / IA')">
+                            <img src="ASSETS/retrato_002_full.png" alt="RETRATOS 002 - Henrique F" class="artwork-img" loading="lazy">
+                            <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
                 </div>
@@ -94,8 +105,9 @@
             <section class="slide" id="slide-4" data-slide="4">
                 <div class="slide-content split-layout left-image">
                     <div class="media-column">
-                        <div class="image-wrapper full-bleed">
-                            <img src="assets/salto_001_full.png" alt="Salto - 001 - Henrique F" class="artwork-img">
+                        <div class="image-wrapper" onclick="openLightbox('ASSETS/salto_001_full.png', 'Salto - 001', 'HENRIQUE F &bull; Pintura digital &bull; Processos Híbridos / IA')">
+                            <img src="ASSETS/salto_001_full.png" alt="Salto - 001 - Henrique F" class="artwork-img" loading="lazy">
+                            <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
                     <div class="text-column">
@@ -107,9 +119,9 @@
                             <span class="caption-artist">HENRIQUE F</span>
                             <div class="caption-process">
                                 <span>Matriz: Pintura digital</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Intervenção: Processos Híbridos / IA</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Saída: Impressão Fine Art</span>
                             </div>
                         </div>
@@ -121,24 +133,26 @@
             <section class="slide" id="slide-5" data-slide="5">
                 <div class="slide-content side-by-side-layout">
                     <div class="dual-column left-item">
-                        <div class="image-wrapper dual-artwork">
-                            <img src="assets/boys_003_full.png" alt="BOYS - 003 - Henrique F" class="artwork-img">
+                        <div class="image-wrapper dual-artwork" onclick="openLightbox('ASSETS/boys_003_full.png', 'BOYS - 003', 'HENRIQUE F &bull; Pintura digital &bull; Processos Híbridos / IA')">
+                            <img src="ASSETS/boys_003_full.png" alt="BOYS - 003 - Henrique F" class="artwork-img" loading="lazy">
+                            <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                         <div class="curatorial-caption bottom-left">
                             <span class="caption-title">BOYS - 003</span>
                             <span class="caption-artist">HENRIQUE F</span>
                             <div class="caption-process">
                                 <span>Matriz: Pintura digital</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Intervenção: Processos Híbridos / IA</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Saída: Impressão Fine Art</span>
                             </div>
                         </div>
                     </div>
                     <div class="dual-column right-item">
-                        <div class="image-wrapper dual-mockup">
-                            <img src="assets/boys_mockup_full.png" alt="Visualização Expográfica BOYS - 003" class="artwork-img">
+                        <div class="image-wrapper dual-mockup" onclick="openLightbox('ASSETS/boys_mockup_full.png', 'Visualização Expográfica', 'BOYS - 003 &bull; Projeto de Galeria')">
+                            <img src="ASSETS/boys_mockup_full.png" alt="Visualização Expográfica BOYS - 003" class="artwork-img" loading="lazy">
+                            <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                         <div class="curatorial-caption bottom-right">
                             <span class="caption-title">Visualização Expográfica</span>
@@ -152,8 +166,9 @@
             <section class="slide" id="slide-6" data-slide="6">
                 <div class="slide-content split-layout left-image">
                     <div class="media-column">
-                        <div class="image-wrapper full-bleed">
-                            <img src="assets/sem_titulo_full.png" alt="Sem título - Henrique F" class="artwork-img">
+                        <div class="image-wrapper" onclick="openLightbox('ASSETS/sem_titulo_full.png', 'Sem título', 'HENRIQUE F &bull; Pintura digital &bull; Processos Híbridos / IA')">
+                            <img src="ASSETS/sem_titulo_full.png" alt="Sem título - Henrique F" class="artwork-img" loading="lazy">
+                            <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
                     <div class="text-column">
@@ -165,9 +180,9 @@
                             <span class="caption-artist">HENRIQUE F</span>
                             <div class="caption-process">
                                 <span>Matriz: Pintura digital</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Intervenção: Processos Híbridos / IA</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Saída: Impressão Fine Art</span>
                             </div>
                         </div>
@@ -193,16 +208,17 @@
                             <div class="caption-process">
                                 <span>Direção Criativa: Henrique F</span>
                                 <span>Matriz: Pesquisa Visual / Fotografia</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Intervenção: Processos Híbridos / IA</span>
-                                <span class="arrow">↓</span>
+                                <span class="arrow">&darr;</span>
                                 <span>Saída: Impressão Fine Art</span>
                             </div>
                         </div>
                     </div>
                     <div class="media-column">
-                        <div class="image-wrapper full-bleed">
-                            <img src="assets/from_heaven_000_full.png" alt="From Heaven-000 - Henrique F" class="artwork-img">
+                        <div class="image-wrapper" onclick="openLightbox('ASSETS/from_heaven_000_full.png', 'From Heaven-000', 'HENRIQUE F &bull; Direção Criativa &bull; Processos Híbridos / IA')">
+                            <img src="ASSETS/from_heaven_000_full.png" alt="From Heaven-000 - Henrique F" class="artwork-img" loading="lazy">
+                            <span class="zoom-badge">🔍 Zoom</span>
                         </div>
                     </div>
                 </div>
@@ -213,20 +229,20 @@
         <!-- Presentation Controls & Navigation Bar -->
         <footer class="presentation-controls">
             <div class="controls-left">
-                <span class="deck-title">ARTE HÍBRIDA — PESQUISA CURATORIAL</span>
+                <span class="deck-title">ARTE HÍBRIDA &bull; HENRIQUE F</span>
             </div>
 
             <div class="controls-center">
-                <button class="nav-btn prev-btn" id="prevBtn" aria-label="Slide anterior">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <button class="nav-btn prev-btn" id="prevBtn" aria-label="Slide anterior" title="Slide Anterior (←)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
                 </button>
                 <div class="slide-counter" id="slideCounter">
-                    <span id="currentSlide">1</span> / <span id="totalSlides">7</span>
+                    <span id="currentSlide">01</span> / <span id="totalSlides">07</span>
                 </div>
-                <button class="nav-btn next-btn" id="nextBtn" aria-label="Próximo slide">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <button class="nav-btn next-btn" id="nextBtn" aria-label="Próximo slide" title="Próximo Slide (→)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                 </button>
@@ -234,17 +250,24 @@
 
             <div class="controls-right">
                 <button class="icon-btn fullscreen-btn" id="fullscreenBtn" title="Modo Tela Cheia (F)">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
                     </svg>
                 </button>
             </div>
         </footer>
 
-        <!-- Top Progress Bar -->
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progressBar"></div>
+        <!-- LIGHTBOX MODAL DE ZOOM -->
+        <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+            <button class="lightbox-close-btn" onclick="closeLightbox()">
+                FECHAR &times;
+            </button>
+            <div class="lightbox-content" onclick="event.stopPropagation()">
+                <img id="lightboxImg" src="" alt="Ampliação da Obra">
+                <div id="lightboxCaption" class="lightbox-caption"></div>
+            </div>
         </div>
+
     </div>
 
     <script src="app.js"></script>
